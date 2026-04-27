@@ -9,13 +9,13 @@ if [[ -n "$VERSION_INPUT" ]]; then
   echo "使用用户指定版本: $FILE_NAME"
 else
   echo "获取最新版本..."
-  VERSION_CONTENT=$(curl -s https://fw0.koolcenter.com/iStoreOS/x86_64_efi/version.latest)
-  FILE_NAME=$(echo "$VERSION_CONTENT" | sed -n 's/.*\(istoreos-[0-9.-]*-x86-64-squashfs-combined-efi\.img\.gz\).*/\1/p')
+  VERSION_CONTENT=$(curl -sL https://fw0.koolcenter.com/iStoreOS/x86_64_efi/version.latest)
+  FILE_NAME=$(echo "$VERSION_CONTENT" | head -1 | sed -n 's/.*\(istoreos-[0-9.-]*-x86-64-squashfs-combined-efi\.img\.gz\).*/\1/p')
   echo "最新版本: $FILE_NAME"
 fi
 
 OUTPUT_PATH="openwrt/istoreos.img.gz"
-DOWNLOAD_URL="https://fw0.koolcenter.com/iStoreOS/x86_64_efi/$FILE_NAME"
+DOWNLOAD_URL="https://fw20.koolcenter.com/iStoreOS/x86_64_efi/$FILE_NAME"
 
 if [[ -z "$DOWNLOAD_URL" ]] || [[ "$DOWNLOAD_URL" == "null" ]]; then
   echo "错误：未找到文件 $FILE_NAME"
