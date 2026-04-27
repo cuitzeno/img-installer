@@ -10,7 +10,7 @@ if [[ -n "$VERSION_INPUT" ]]; then
 else
   echo "获取最新版本..."
   VERSION_CONTENT=$(curl -s https://fw0.koolcenter.com/iStoreOS/x86_64_efi/version.latest)
-  FILE_NAME=$(echo "$VERSION_CONTENT" | grep -oP 'istoreos-\K[0-9.-]+-x86-64-squashfs-combined-efi\.img\.gz')
+  FILE_NAME=$(echo "$VERSION_CONTENT" | sed -n 's/.*\(istoreos-[0-9.-]*-x86-64-squashfs-combined-efi\.img\.gz\).*/\1/p')
   echo "最新版本: $FILE_NAME"
 fi
 
