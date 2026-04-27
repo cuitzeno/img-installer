@@ -1,7 +1,12 @@
-name: "Build iStoreOS 24.10.1 Installer ISO"
+name: "Build iStoreOS Installer ISO"
 
 on:
  workflow_dispatch:
+    inputs:
+      version:
+        description: "完整版本 (如 24.10.6-2026041710)，留空则自动获取最新版本"
+        required: false
+        default: ""
 
 jobs:
   build-release:
@@ -11,7 +16,7 @@ jobs:
     steps:
 
       - name: "Checking out git repository"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       
       - name: Set executable permissions
         run: |
@@ -20,7 +25,11 @@ jobs:
 
       - name: "Build iStoreOS Installer ISO"
         run: |
-          ./istoreos.sh
+          if [[ -n "${{ github.event.inputs.version }}" ]]; then
+            ./istoreos.sh "${{ github.event.inputs.version }}"
+          else
+            ./istoreos.sh
+          fi
       
       - name: "Publish"
         uses: softprops/action-gh-release@v2.2.1
